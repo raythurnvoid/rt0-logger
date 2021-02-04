@@ -1,4 +1,5 @@
-import chalk, { ForegroundColor } from "chalk";
+import chalk from "chalk";
+import type { ForegroundColor } from "chalk";
 
 export function createLog(label: string): typeof log;
 export function createLog(module: NodeModule): typeof log;

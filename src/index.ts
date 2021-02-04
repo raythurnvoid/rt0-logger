@@ -107,9 +107,3 @@ function getColor(level: Level): typeof ForegroundColor {
 }
 
 type Level = "debug" | "info" | "warn" | "error" | "log" | "success" | "fail";
-interface LogOptions {
-	level?: Level;
-	label?: string;
-	message?: string;
-	args: any[];
-}

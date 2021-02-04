@@ -1,9 +1,9 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "",
 	"main": "./cjs/index.js",
-	"module": "./esm/index.ts",
+	"module": "./esm/index.js",
 	"scripts": {
 		"clean-lib": "del-cli lib",
 		"copy:package": "copyfiles package.json lib",

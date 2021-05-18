@@ -1,22 +1,69 @@
 {
 	"folders": [
 		{
-			"path": "./"
+			"path": "."
 		}
 	],
 	"settings": {
-		"typescript.tsdk": ".\\node_modules\\typescript\\lib",
-		"deno.enable": false,
-		"editor.tabSize": 2,
+		"workbench.colorCustomizations": {
+			"activityBar.background": "#d6e417",
+			"activityBar.inactiveForeground": "#646464",
+			"activityBar.activeBackground": "#feffc6",
+			"activityBar.foreground": "#0010f1",
+			"activityBar.activeBorder": "#f3f8ff",
+			"activityBarBadge.background": "#0a0a1d",
+			"activityBarBadge.foreground": "#e7e7e7",
+		},
 		"prettier.useTabs": true,
 		"prettier.singleQuote": false,
-		"editor.insertSpaces": false,
 		"editor.formatOnSave": true,
+		"editor.insertSpaces": false,
+		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"typescript.preferences.importModuleSpecifier": "relative"
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "node",
+				"request": "launch",
+				"name": "Launch dws-aem-credentials-store",
+				"cwd": "${workspaceFolder}",
+				"runtimeArgs": [
+					"--inspect",
+					"--async-stack-traces",
+					"-r",
+					"${workspaceFolder}/node_modules/ts-node/register",
+					"-r",
+					"${workspaceFolder}/node_modules/tsconfig-paths/register"
+				],
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"program": "${workspaceFolder}/src/index.ts",
+				"outFiles": [
+					"${workspaceFolder}/**/*.js"
+				],
+				"env": {
+					"TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
+				}
+			}
+		]
 	},
 	"extensions": {
 		"recommendations": [
 			"esbenp.prettier-vscode",
-			"eamodio.gitlens"
+			"svelte.svelte-vscode",
+			"CoenraadS.bracket-pair-colorizer-2",
+			"aaron-bond.better-comments",
+			"wmaurer.change-case",
+			"mikestead.dotenv",
+			"usernamehw.errorlens",
+			"christian-kohler.path-intellisense",
+			"searKing.preview-vscode",
+			"Tyriar.shell-launcher",
+			"pflannery.vscode-versionlens",
+			"vscode-icons-team.vscode-icons",
 		]
-	},
+	}
 }

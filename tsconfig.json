@@ -1,25 +1,15 @@
 {
+	"extends": "@raythurnevoid/ts-node-template/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"lib": [
-			"ES2019",
-			"DOM"
-		],
-		"target": "ES2019",
-		"module": "CommonJS",
-		"outDir": "dist",
-		"moduleResolution": "node",
-		"importsNotUsedAsValues": "error",
-		"esModuleInterop": true,
-		"isolatedModules": true,
-		"keyofStringsOnly": true,
-		"forceConsistentCasingInFileNames": true,
-		"declaration": true
+		"strict": true,
+		"outDir": "./lib",
 	},
 	"include": [
-		"src/**/*"
+		"./src"
 	],
 	"exclude": [
-		"**/node_modules/**/*",
+		"./node_modules",
+		"**/*.spec.ts"
 	]
 }

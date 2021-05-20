@@ -1,74 +1,127 @@
 import chalk from "chalk";
 
-export class Log {
-	constructor(private label: string) {}
+export const defaultConfig: Config = {
+	logLevel: "debug",
+};
 
-	get debug(): ConsoleLog {
-		return bindConsoleLog("debug", this.label);
-	}
+export interface ILog {
+	debug: ConsoleLog;
+	d: ConsoleLog;
 
-	d(...args: ConsoleLogParams) {
-		return this.debug(...args);
-	}
+	error: ConsoleLog;
+	e: ConsoleLog;
 
-	get error(): ConsoleLog {
-		return bindConsoleLog("error", this.label);
-	}
+	fail: ConsoleLog;
+	f: ConsoleLog;
 
-	e(...args: ConsoleLogParams) {
-		return this.error(...args);
-	}
+	info: ConsoleLog;
+	i: ConsoleLog;
 
-	get fail(): ConsoleLog {
-		return bindConsoleLog("fail", this.label);
-	}
+	success: ConsoleLog;
+	s: ConsoleLog;
 
-	f(...args: ConsoleLogParams) {
-		return this.fail(...args);
-	}
+	warn: ConsoleLog;
+	w: ConsoleLog;
 
-	get info(): ConsoleLog {
-		return bindConsoleLog("info", this.label);
-	}
-
-	i(...args: ConsoleLogParams) {
-		return this.info(...args);
-	}
-
-	get success(): ConsoleLog {
-		return bindConsoleLog("success", this.label);
-	}
-
-	s(...args: ConsoleLogParams) {
-		return this.success(...args);
-	}
-
-	get warn(): ConsoleLog {
-		return bindConsoleLog("warn", this.label);
-	}
-
-	w(...args: ConsoleLogParams) {
-		return this.warn(...args);
-	}
-
-	get raw(): ConsoleLog {
-		return console.log.bind(console);
-	}
-
-	r(...args: ConsoleLogParams) {
-		return this.raw(...args);
-	}
+	raw: ConsoleLog;
+	r: ConsoleLog;
 }
 
-function bindConsoleLog(level: Level, label?: string) {
-	const logLevel =
-		level === "success" ? "info" : level === "fail" ? "error" : level;
-	const args = [];
-	if (label) {
-		args.push(`[${label}]`);
+export function buildLogger(
+	configFn: ConfigFn = () => defaultConfig
+): new (label: string | NodeModule) => ILog {
+	class Log implements ILog {
+		private label: string;
+
+		constructor(label: string | NodeModule) {
+			function isNodeModule(label: string | NodeModule): label is NodeModule {
+				return !!(label as NodeModule).filename;
+			}
+
+			if (isNodeModule(label)) {
+				this.label = label.filename
+					.replace(process.cwd(), "")
+					.replace(/\\/g, "/");
+			} else {
+				this.label = label;
+			}
+		}
+
+		get debug(): ConsoleLog {
+			return bindConsoleLog("debug", this.label);
+		}
+
+		get d() {
+			return this.debug;
+		}
+
+		get error(): ConsoleLog {
+			return bindConsoleLog("error", this.label);
+		}
+
+		get e() {
+			return this.error;
+		}
+
+		get fail(): ConsoleLog {
+			return bindConsoleLog("fail", this.label);
+		}
+
+		get f() {
+			return this.fail;
+		}
+
+		get info(): ConsoleLog {
+			return bindConsoleLog("info", this.label);
+		}
+
+		get i() {
+			return this.info;
+		}
+
+		get success(): ConsoleLog {
+			return bindConsoleLog("success", this.label);
+		}
+
+		get s() {
+			return this.success;
+		}
+
+		get warn(): ConsoleLog {
+			return bindConsoleLog("warn", this.label);
+		}
+
+		get w() {
+			return this.warn;
+		}
+
+		get raw(): ConsoleLog {
+			return console.log.bind(console);
+		}
+
+		get r() {
+			return this.raw;
+		}
 	}
-	args.push(chalk[getColor(level)](`[${level.toUpperCase()}]`));
-	return console[logLevel].bind(console, ...args);
+
+	function bindConsoleLog(level: Level, label?: string) {
+		const config = configFn();
+		const logLevel =
+			level === "success" ? "info" : level === "fail" ? "error" : level;
+
+		if (getLogLevelValue(logLevel) > getLogLevelValue(config.logLevel)) {
+			return () => undefined;
+		}
+
+		const args = [];
+		if (label) {
+			args.push(`[${label}]`);
+		}
+		args.push(chalk[getColor(level)](`[${level.toUpperCase()}]`));
+		return console[logLevel].bind(console, ...args);
+	}
+
+	return Log;
 }
 
 export namespace c {
@@ -108,10 +161,20 @@ function getColor(level: Level) {
 		case "fail":
 			return "red";
 	}
-
-	return undefined!;
 }
 
-type Level = "debug" | "info" | "warn" | "error" | "log" | "success" | "fail";
+function getLogLevelValue(logLevel: string) {
+	return logLevels.indexOf(logLevel as Config["logLevel"]);
+}
+
+type Level = "debug" | "info" | "warn" | "error" | "success" | "fail";
 type ConsoleLog = typeof console.log;
 type ConsoleLogParams = Parameters<typeof console.log>;
+
+export interface Config {
+	logLevel: typeof logLevels[number];
+}
+
+type ConfigFn = () => Config;
+
+const logLevels = ["none", "error", "warn", "info", "debug"] as const;

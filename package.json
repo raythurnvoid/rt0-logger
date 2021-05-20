@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "",
 	"main": "./cjs/index.js",
 	"module": "./esm/index.js",
@@ -26,6 +26,6 @@
 		"@types/chalk": "^2.2.0"
 	},
 	"devDependencies": {
-		"@raythurnevoid/ts-node-template": "^0.0.2"
+		"@raythurnevoid/ts-node-template": "^0.0.4"
 	}
 }

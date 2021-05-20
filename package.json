@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "",
 	"main": "./cjs/index.js",
 	"module": "./esm/index.js",
@@ -23,7 +23,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@types/chalk": "^2.2.0"
+		"@types/chalk": "^2.2.0",
+		"chalk": "^4.1.1"
 	},
 	"devDependencies": {
 		"@raythurnevoid/ts-node-template": "^0.0.4"

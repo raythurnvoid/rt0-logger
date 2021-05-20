@@ -1,5 +1,6 @@
-import { Log, c, colors } from "./lib";
+import { buildLogger, c, colors } from "./lib";
 
+const Log = buildLogger();
 const log = new Log("index");
 
 log.debug(colors.debug("test"));

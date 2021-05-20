@@ -169,7 +169,6 @@ function getLogLevelValue(logLevel: string) {
 
 type Level = "debug" | "info" | "warn" | "error" | "success" | "fail";
 type ConsoleLog = typeof console.log;
-type ConsoleLogParams = Parameters<typeof console.log>;
 
 export interface Config {
 	logLevel: typeof logLevels[number];

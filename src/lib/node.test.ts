@@ -1,5 +1,5 @@
-import { buildLogger, colors, c } from "./node";
-import type { ConfigFn } from "./types";
+import { buildLogger, colors, c } from "./node.js";
+import type { ConfigFn } from "./types.js";
 
 test("test node logger", () => {
 	const Log = buildLogger();

@@ -19,7 +19,8 @@
 		"editor.formatOnSave": true,
 		"editor.insertSpaces": false,
 		"typescript.tsdk": "node_modules\\typescript\\lib",
-		"typescript.preferences.importModuleSpecifier": "relative"
+		"typescript.preferences.importModuleSpecifier": "relative",
+		"typescript.preferences.importModuleSpecifierEnding": "js"
 	},
 	"launch": {
 		"version": "0.2.0",

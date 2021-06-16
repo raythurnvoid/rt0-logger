@@ -1,4 +1,4 @@
-import type { logLevels } from "./internal";
+import type { logLevels } from "./internal.js";
 
 export interface ILog {
 	debug: ConsoleLog;

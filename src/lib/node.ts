@@ -4,8 +4,8 @@ import {
 	getColor,
 	defaultConfig,
 	getLogLevelValue,
-} from "./internal";
-import type { ConfigFn, ILog, Level } from "./types";
+} from "./internal.js";
+import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
 	configFn: ConfigFn = () => defaultConfig
@@ -32,4 +32,4 @@ export function buildLogger(
 	return Log;
 }
 
-export { c, colors, defaultConfig } from "./internal";
+export { c, colors, defaultConfig } from "./internal.js";

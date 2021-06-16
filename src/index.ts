@@ -1,4 +1,4 @@
-import { buildLogger, c, colors } from "./lib/node";
+import { buildLogger, c, colors } from "./lib/node.js";
 
 const Log = buildLogger();
 const log = new Log(import.meta.url);

@@ -1,5 +1,9 @@
-import { buildLoggerClass, defaultConfig, getLogLevelValue } from "./internal";
-import type { ConfigFn, ILog, Level } from "./types";
+import {
+	buildLoggerClass,
+	defaultConfig,
+	getLogLevelValue,
+} from "./internal.js";
+import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
 	configFn: ConfigFn = () => defaultConfig

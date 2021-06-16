@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import type { Config, ConsoleLog, ILog, Level } from "./types";
+import type { Config, ConsoleLog, ILog, Level } from "./types.js";
 
 export const defaultConfig: Config = {
 	logLevel: "debug",

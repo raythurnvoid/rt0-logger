@@ -9,6 +9,7 @@ const config = {
 		prefix: "<rootDir>/",
 	}),
 	testPathIgnorePatterns: ["/node_modules/", "<rootDir>/lib/"],
+	resolver: "jest-ts-webcompat-resolver",
 };
 
 module.exports = config;

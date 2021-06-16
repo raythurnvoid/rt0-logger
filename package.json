@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.4",
+	"version": "0.2.5",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",
@@ -13,7 +13,7 @@
 		"prepackage": "npm run lib",
 		"package": "npm publish ./lib --access public",
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
-		"ts-node": "npm run env -- node -r ts-node/register -r tsconfig-paths/register --loader ts-node/esm --experimental-specifier-resolution=node --",
+		"ts-node": "npm run env -- node -r ts-node/register -r tsconfig-paths/register --loader ts-node/esm --",
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
 		"start": "npm run ts-node src/index.ts",
 		"debug": "npm run ts-node:inspect src/index.ts",
@@ -21,9 +21,9 @@
 	},
 	"type": "module",
 	"exports": {
-		"./browser": "./browser",
-		"./node": "./node",
-		"./types": "./types",
+		"./browser.js": "./browser.js",
+		"./node.js": "./node.js",
+		"./types.js": "./types.js",
 		"./cjs/*": "./cjs/*"
 	},
 	"browserslist": [
@@ -39,6 +39,7 @@
 		"@raythurnevoid/ts-node-template": "^0.0.5",
 		"@types/jest": "^26.0.23",
 		"jest": "^27.0.4",
+		"jest-ts-webcompat-resolver": "^1.0.0",
 		"ts-jest": "^27.0.3"
 	}
 }

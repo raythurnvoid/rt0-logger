@@ -1,13 +1,15 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",
+		"copy:package:cjs": "copyfiles cjs/* lib",
 		"copy:package": "copyfiles package.json lib",
 		"copy:src": "copyfiles --up 1 src/lib/*.* lib/src",
 		"tsc": "tsc -p tsconfig.lib.json",
-		"lib": "npm-run-all clean-lib copy:package copy:src tsc",
+		"tsc:cjs": "tsc -p tsconfig.lib.cjs.json",
+		"lib": "npm-run-all clean-lib copy:package copy:package:cjs copy:src tsc tsc:cjs",
 		"prepackage": "npm run lib",
 		"package": "npm publish ./lib --access public",
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
@@ -15,7 +17,7 @@
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
 		"start": "npm run ts-node src/index.ts",
 		"debug": "npm run ts-node:inspect src/index.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "jest"
 	},
 	"type": "module",
 	"exports": {

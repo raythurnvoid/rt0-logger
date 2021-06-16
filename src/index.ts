@@ -1,7 +1,7 @@
-import { buildLogger, c, colors } from "./lib";
+import { buildLogger, c, colors } from "./lib/node";
 
 const Log = buildLogger();
-const log = new Log("index");
+const log = new Log(import.meta.url);
 
 log.debug(colors.debug("test"));
 log.d(c.d("test"));

@@ -2,14 +2,13 @@
 	"extends": "@raythurnevoid/ts-node-template/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"strict": true,
 		"outDir": "./lib",
+		"types": [
+			"node",
+			"jest"
+		]
 	},
 	"include": [
 		"./src"
-	],
-	"exclude": [
-		"./node_modules",
-		"**/*.spec.ts"
 	]
 }

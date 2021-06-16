@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",
@@ -36,7 +36,7 @@
 		"chalk": "^4.1.1"
 	},
 	"devDependencies": {
-		"@raythurnevoid/ts-node-template": "^0.0.5",
+		"@raythurnevoid/ts-node-template": "^0.1.0",
 		"@types/jest": "^26.0.23",
 		"jest": "^27.0.4",
 		"jest-ts-webcompat-resolver": "^1.0.0",

@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",
@@ -23,7 +23,8 @@
 	"exports": {
 		"./browser": "./browser",
 		"./node": "./node",
-		"./types": "./types"
+		"./types": "./types",
+		"./cjs/*": "./cjs/*"
 	},
 	"browserslist": [
 		"> 5% or node >= 16"

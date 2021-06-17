@@ -30,4 +30,4 @@ export function buildLogger(
 	return Log;
 }
 
-export { defaultConfig } from "./internal";
+export { defaultConfig } from "./internal.js";

@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",

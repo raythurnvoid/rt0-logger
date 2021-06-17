@@ -7,7 +7,7 @@ import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
 	configFn: ConfigFn = () => defaultConfig
-): new (label: string | NodeModule) => ILog {
+): new (label: string) => ILog {
 	function bindConsoleLog(level: Level, label?: string) {
 		const config = configFn();
 		const logLevel =

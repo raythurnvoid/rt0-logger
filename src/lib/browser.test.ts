@@ -4,7 +4,7 @@ import type { ConfigFn } from "./types.js";
 test("test node logger", () => {
 	const Log = buildLogger();
 	expect(Log).toBeTruthy();
-	const log = new Log(module);
+	const log = new Log("browser.test.ts");
 	expect(log).toBeTruthy();
 
 	expect(() => {
@@ -33,7 +33,7 @@ test("test config", () => {
 	}) as ConfigFn);
 
 	const Log = buildLogger(configFn);
-	const log = new Log(module);
+	const log = new Log("browser.test.ts");
 	expect(configFn.mock.calls.length).toStrictEqual(0);
 	log.debug("test");
 	expect(configFn.mock.calls.length).toStrictEqual(1);

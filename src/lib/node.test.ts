@@ -1,10 +1,10 @@
-import { buildLogger, colors, c } from "./node.js";
+import { buildLogger, colors, c, getModuleLabel } from "./node.js";
 import type { ConfigFn } from "./types.js";
 
 test("test node logger", () => {
 	const Log = buildLogger();
 	expect(Log).toBeTruthy();
-	const log = new Log(module);
+	const log = new Log(getModuleLabel(module));
 	expect(log).toBeTruthy();
 
 	expect(() => {
@@ -33,7 +33,7 @@ test("test config", () => {
 	}) as ConfigFn);
 
 	const Log = buildLogger(configFn);
-	const log = new Log(module);
+	const log = new Log(getModuleLabel(module));
 	expect(configFn.mock.calls.length).toStrictEqual(0);
 	log.debug(colors.debug("test"));
 	expect(configFn.mock.calls.length).toStrictEqual(1);

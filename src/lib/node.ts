@@ -9,7 +9,7 @@ import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
 	configFn: ConfigFn = () => defaultConfig
-): new (label: string | NodeModule) => ILog {
+): new (label: string) => ILog {
 	function bindConsoleLog(level: Level, label?: string) {
 		const config = configFn();
 		const logLevel =
@@ -30,6 +30,11 @@ export function buildLogger(
 	const Log = buildLoggerClass(bindConsoleLog);
 
 	return Log;
+}
+
+export function getModuleLabel(meta: any) {
+	const label = meta.filename.replace(process.cwd(), "").replace(/\\/g, "/");
+	return label;
 }
 
 export { c, colors, defaultConfig } from "./internal.js";

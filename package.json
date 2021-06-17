@@ -1,10 +1,10 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.6",
+	"version": "0.2.7",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib",
-		"copy:package:cjs": "copyfiles cjs/* lib",
+		"copy:package:cjs": "copyfiles --up 1 cjs/* lib/cjs",
 		"copy:package": "copyfiles package.json lib",
 		"copy:src": "copyfiles --up 1 src/lib/*.* lib/src",
 		"tsc": "tsc -p tsconfig.lib.json",
@@ -32,12 +32,12 @@
 	"author": "Daniele Loreto <dloreto.work@gmail.com>",
 	"license": "ISC",
 	"dependencies": {
-		"@types/chalk": "^2.2.0",
 		"chalk": "^4.1.1"
 	},
 	"devDependencies": {
-		"@raythurnevoid/ts-node-template": "^0.1.0",
+		"@types/chalk": "^2.2.0",
 		"@types/jest": "^26.0.23",
+		"@raythurnevoid/ts-node-template": "^0.1.0",
 		"jest": "^27.0.4",
 		"jest-ts-webcompat-resolver": "^1.0.0",
 		"ts-jest": "^27.0.3"

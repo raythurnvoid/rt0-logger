@@ -7,23 +7,9 @@ export const defaultConfig: Config = {
 
 export function buildLoggerClass(
 	bindConsoleLog: (level: Level, label?: string) => ConsoleLog
-): new (label: string | NodeModule) => ILog {
+): new (label: string) => ILog {
 	class Log implements ILog {
-		private label: string;
-
-		constructor(label: string | NodeModule) {
-			function isNodeModule(label: string | NodeModule): label is NodeModule {
-				return !!(label as NodeModule).filename;
-			}
-
-			if (isNodeModule(label)) {
-				this.label = label.filename
-					.replace(process.cwd(), "")
-					.replace(/\\/g, "/");
-			} else {
-				this.label = label;
-			}
-		}
+		constructor(private label: string) {}
 
 		get debug(): ConsoleLog {
 			return bindConsoleLog("debug", this.label);

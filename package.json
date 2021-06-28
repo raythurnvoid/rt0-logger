@@ -1,17 +1,21 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.8",
+	"version": "0.2.9",
 	"description": "",
 	"scripts": {
-		"clean-lib": "del-cli lib",
+		"clean-lib": "del-cli lib/*",
 		"copy:package:cjs": "copyfiles --up 1 cjs/* lib/cjs",
 		"copy:package": "copyfiles package.json lib",
-		"copy:src": "copyfiles --up 1 src/lib/*.* lib/src",
+		"copy:src": "copyfiles --up 2 src/lib/**/* lib/src",
+		"copy:cjs": "copyfiles --up 2 src/lib/**/!(*.ts) lib/cjs",
+		"copy": "copyfiles --up 2 src/lib/**/!(*.ts) lib",
 		"tsc": "tsc -p tsconfig.lib.json",
 		"tsc:cjs": "tsc -p tsconfig.lib.cjs.json",
-		"lib": "npm-run-all clean-lib copy:package copy:package:cjs copy:src tsc tsc:cjs",
-		"prepackage": "npm run lib",
-		"package": "npm publish ./lib --access public",
+		"build": "npm-run-all --parallel copy:package copy:package:cjs copy copy:cjs copy:src tsc tsc:cjs",
+		"lib": "npm run clean-lib && npm run build",
+		"dev": "npm run clean-lib && nodemon --watch src -e ts --exec \"npm run build\"",
+		"prepublish": "npm run lib",
+		"publish": "npm publish ./lib",
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
 		"ts-node": "npm run env -- node -r ts-node/register -r tsconfig-paths/register --loader ts-node/esm --",
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
@@ -21,25 +25,43 @@
 	},
 	"type": "module",
 	"exports": {
-		"./browser.js": "./browser.js",
-		"./node.js": "./node.js",
-		"./types.js": "./types.js",
+		".": {
+			"import": "./browser.js",
+			"require": "./cjs/browser.js"
+		},
+		"./browser": {
+			"import": "./browser.js",
+			"require": "./cjs/browser.js"
+		},
+		"./node": {
+			"import": "./node.js",
+			"require": "./cjs/node.js"
+		},
+		"./types": {
+			"import": "./types.js",
+			"require": "./cjs/types.js"
+		},
 		"./cjs/*": "./cjs/*"
 	},
 	"browserslist": [
-		"> 5% or node >= 16"
+		"> 5%"
 	],
-	"author": "Daniele Loreto <dloreto.work@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/raythurnevoid/node-colorful-log.git"
+	},
+	"author": "Ray Thurne",
 	"license": "ISC",
 	"dependencies": {
 		"chalk": "^4.1.1"
 	},
 	"devDependencies": {
+		"@raythurnevoid/ts-node-template": "^0.1.0",
 		"@types/chalk": "^2.2.0",
 		"@types/jest": "^26.0.23",
-		"@raythurnevoid/ts-node-template": "^0.1.0",
 		"jest": "^27.0.4",
 		"jest-ts-webcompat-resolver": "^1.0.0",
-		"ts-jest": "^27.0.3"
+		"ts-jest": "^27.0.3",
+		"nodemon": "^2.0.7"
 	}
 }

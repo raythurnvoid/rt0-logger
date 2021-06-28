@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.10",
+	"version": "0.2.13",
 	"description": "",
 	"scripts": {
 		"clean-lib": "del-cli lib/*",
@@ -14,8 +14,6 @@
 		"build": "npm-run-all --parallel copy:package copy:package:cjs copy copy:cjs copy:src tsc tsc:cjs",
 		"lib": "npm run clean-lib && npm run build",
 		"dev": "npm run clean-lib && nodemon --watch src -e ts --exec \"npm run build\"",
-		"prepublish": "npm run lib",
-		"publish": "npm publish ./lib",
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
 		"ts-node": "npm run env -- node -r ts-node/register -r tsconfig-paths/register --loader ts-node/esm --",
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
@@ -43,6 +41,7 @@
 		},
 		"./cjs/*": "./cjs/*"
 	},
+	"publishConfig": {},
 	"browserslist": [
 		"> 5%"
 	],

@@ -2,7 +2,7 @@ import {
 	buildLoggerClass,
 	defaultConfig,
 	getLogLevelValue,
-} from "./internal.js";
+} from "./internal/internal.js";
 import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
@@ -30,4 +30,4 @@ export function buildLogger(
 	return Log;
 }
 
-export { defaultConfig } from "./internal.js";
+export { defaultConfig } from "./internal/internal.js";

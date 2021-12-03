@@ -1,10 +1,9 @@
-import chalk from "chalk";
+import { colors } from "./internal/colors.js";
 import {
 	buildLoggerClass,
-	getColor,
 	defaultConfig,
 	getLogLevelValue,
-} from "./internal.js";
+} from "./internal/internal.js";
 import type { ConfigFn, ILog, Level } from "./types.js";
 
 export function buildLogger(
@@ -23,7 +22,7 @@ export function buildLogger(
 		if (label) {
 			args.push(`[${label}]`);
 		}
-		args.push(chalk[getColor(level)](`[${level.toUpperCase()}]`));
+		args.push(colors[level](`[${level.toUpperCase()}]`));
 		return console[logLevel].bind(console, ...args);
 	}
 
@@ -37,4 +36,5 @@ export function getModuleLabel(meta: any) {
 	return label;
 }
 
-export { c, colors, defaultConfig } from "./internal.js";
+export { defaultConfig } from "./internal/internal.js";
+export { c, colors } from "./internal/colors.js";

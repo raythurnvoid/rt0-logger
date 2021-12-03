@@ -2,7 +2,6 @@
 	"extends": "@raythurnevoid/ts-node-template/tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"outDir": "./lib",
 		"types": [
 			"node",
 			"jest"

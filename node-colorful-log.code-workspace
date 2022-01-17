@@ -55,7 +55,6 @@
 		"recommendations": [
 			"esbenp.prettier-vscode",
 			"svelte.svelte-vscode",
-			"CoenraadS.bracket-pair-colorizer-2",
 			"aaron-bond.better-comments",
 			"wmaurer.change-case",
 			"mikestead.dotenv",

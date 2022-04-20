@@ -1,26 +1,25 @@
 {
 	"name": "@raythurnevoid/node-colorful-log",
-	"version": "0.2.18",
+	"version": "1.0.0-beta",
 	"description": "",
 	"scripts": {
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
 		"clean-lib": "del-cli lib/*",
-		"copy:package:cjs": "copyfiles --up 1 cjs/* lib/cjs",
 		"copy:package": "copyfiles package.json lib",
-		"copy:src": "copyfiles src/lib/**/* lib/src --exclude **/*.test.ts --up 2",
-		"copy:cjs": "copyfiles src/lib/**/* lib/cjs --exclude **/*.ts --up 2",
-		"copy": "copyfiles src/lib/**/* lib --exclude **/*.ts --up 2",
-		"tsc:cjs": "tsc -p tsconfig.lib.cjs.json",
+		"copy:package:cjs": "copyfiles --up 1 cjs/* lib/cjs",
+		"copy": "copyfiles src/lib/**/* tsconfig.json tsconfig.lib.json lib --exclude **/*.test.ts",
+		"copy:cjs": "copyfiles tsconfig.lib.cjs.json lib --exclude **/*.ts",
 		"tsc": "tsc -p tsconfig.lib.json",
-		"build-lib": "npm-run-all --parallel copy:package copy:package:cjs copy copy:cjs copy:src tsc tsc:cjs",
+		"tsc:cjs": "tsc -p tsconfig.lib.cjs.json",
+		"build-lib": "npm-run-all --parallel copy:package copy:package:cjs copy copy:cjs copy tsc tsc:cjs",
 		"lib": "npm run clean-lib && npm run build-lib",
-		"dev": "npm run clean-lib && nodemon --watch src -e ts --exec \"npm run build-lib\"",
-		"package": "npm run lib && npm publish ./lib --access public",
+		"dev": "npm run clean-lib && nodemon --watch src -e * --exec \"npm run build-lib && node \" ./lib/index.js",
 		"ts-node": "npm run env -- node -r ts-node/register -r tsconfig-paths/register --loader ts-node/esm --",
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
 		"start": "npm run ts-node src/index.ts",
 		"debug": "npm run ts-node:inspect src/index.ts",
-		"test": "jest"
+		"test": "jest",
+		"package": "npm run lib && npm publish ./lib --access public --"
 	},
 	"type": "module",
 	"exports": {
@@ -53,14 +52,15 @@
 	"author": "Ray Thurne",
 	"license": "ISC",
 	"dependencies": {
-		"chalk": "^4.1.2"
+		"chalk": "^5.0.1"
 	},
 	"devDependencies": {
-		"@raythurnevoid/ts-node-template": "^0.2.1",
-		"@types/jest": "^27.0.3",
-		"jest": "^27.4.3",
+		"@raythurnevoid/ts-node-template": "^1.0.0-beta",
+		"@types/jest": "^27.4.1",
+		"jest": "^27.5.1",
 		"jest-ts-webcompat-resolver": "^1.0.0",
-		"ts-jest": "^27.0.7",
-		"nodemon": "^2.0.15"
+		"ts-jest": "^27.1.4",
+		"nodemon": "^2.0.15",
+		"typescript": "4.7.0-beta"
 	}
 }

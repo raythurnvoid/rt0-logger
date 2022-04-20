@@ -16,11 +16,15 @@
 		},
 		"prettier.useTabs": true,
 		"prettier.singleQuote": false,
+		"editor.tabSize": 2,
+		"editor.detectIndentation": false,
 		"editor.formatOnSave": true,
 		"editor.insertSpaces": false,
+		"files.eol": "\n",
 		"typescript.tsdk": "node_modules\\typescript\\lib",
 		"typescript.preferences.importModuleSpecifier": "relative",
-		"typescript.preferences.importModuleSpecifierEnding": "js"
+		"typescript.preferences.importModuleSpecifierEnding": "js",
+		"typescript.enablePromptUseWorkspaceTsdk": true
 	},
 	"launch": {
 		"version": "0.2.0",

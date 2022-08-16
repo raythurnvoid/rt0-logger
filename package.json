@@ -1,6 +1,6 @@
 {
-	"name": "@raythurnevoid/node-colorful-log",
-	"version": "1.0.0-beta",
+	"name": "@raythurnevoid/rt0-logger",
+	"version": "1.0.0",
 	"description": "",
 	"scripts": {
 		"env": "cross-env TS_NODE_PROJECT=\"tsconfig.json\"",
@@ -18,7 +18,7 @@
 		"ts-node:inspect": "npm run ts-node -- --inspect --",
 		"start": "npm run ts-node src/index.ts",
 		"debug": "npm run ts-node:inspect src/index.ts",
-		"test": "jest",
+		"test": "npm run ts-node --test ./src/lib/node.test.ts",
 		"package": "npm run lib && npm publish ./lib --access public --"
 	},
 	"type": "module",
@@ -43,11 +43,11 @@
 	},
 	"sideEffects": false,
 	"browserslist": [
-		"> 5% or node >= 16"
+		"> 5% or node >= 18"
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/raythurnevoid/node-colorful-log.git"
+		"url": "git+https://github.com/raythurnevoid/rt0-logger.git"
 	},
 	"author": "Ray Thurne",
 	"license": "ISC",
@@ -55,12 +55,11 @@
 		"chalk": "^5.0.1"
 	},
 	"devDependencies": {
-		"@raythurnevoid/ts-node-template": "^1.0.0-beta",
-		"@types/jest": "^27.4.1",
-		"jest": "^27.5.1",
-		"jest-ts-webcompat-resolver": "^1.0.0",
-		"ts-jest": "^27.1.4",
-		"nodemon": "^2.0.15",
-		"typescript": "4.7.0-beta"
+		"@raythurnevoid/ts-node-template": "^1.0.0",
+		"@types/node": "^18.7.6",
+		"@types/sinon": "^10.0.13",
+		"nodemon": "^2.0.19",
+		"sinon": "^14.0.0",
+		"typescript": "4.7.4"
 	}
 }

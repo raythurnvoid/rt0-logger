@@ -1,11 +1,7 @@
 {
 	"extends": "@raythurnevoid/ts-node-template/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"types": [
-			"node",
-			"jest"
-		]
+		"baseUrl": "."
 	},
 	"include": [
 		"src"

@@ -1,7 +1,7 @@
-import { buildLogger, c, colors } from "./lib/node.js";
+import { buildLogger, c, colors, getModuleLabel } from "./lib/node.js";
 
 const Log = buildLogger();
-const log = new Log(import.meta.url);
+const log = new Log(getModuleLabel(import.meta));
 
 log.debug(colors.debug("test"));
 log.d(c.d("test"));

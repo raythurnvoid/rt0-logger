@@ -31,9 +31,17 @@ export function buildLogger(
 	return Log;
 }
 
-export function getModuleLabel(meta: any) {
-	const label = meta.filename.replace(process.cwd(), "").replace(/\\/g, "/");
-	return label;
+export function getModuleLabel(
+	meta:
+		| { filename: string } // commonjs "module"
+		| {
+				url: string; // esm "import.meta"
+		  }
+) {
+	const cwd = process.cwd().replaceAll("\\", "/");
+	let filename = "filename" in meta ? meta.filename : meta.url;
+	filename = filename.slice(filename.indexOf(cwd)).replace(`${cwd}/`, "");
+	return filename;
 }
 
 export { defaultConfig } from "./internal/internal.js";

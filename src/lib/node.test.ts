@@ -1,13 +1,16 @@
+import assert from "node:assert";
+import test from "node:test";
 import { buildLogger, colors, c, getModuleLabel } from "./node.js";
 import type { ConfigFn } from "./types.js";
+import sinon from "sinon";
 
 test("test node logger", () => {
 	const Log = buildLogger();
-	expect(Log).toBeTruthy();
-	const log = new Log(getModuleLabel(module));
-	expect(log).toBeTruthy();
+	assert.ok(Log);
+	const log = new Log(getModuleLabel(import.meta));
+	assert.ok(log);
 
-	expect(() => {
+	assert.doesNotThrow(() => {
 		log.debug(colors.debug("test"));
 		log.d(c.d("test"));
 		log.error(colors.error("test"));
@@ -22,19 +25,28 @@ test("test node logger", () => {
 		log.w(c.w("test"));
 		log.raw("test");
 		log.r("test");
-	}).not.toThrow();
+	});
 });
 
 test("test config", () => {
-	const configFn = jest.fn((() => {
+	const configFn = sinon.fake((() => {
 		return {
 			logLevel: "none",
 		};
 	}) as ConfigFn);
 
 	const Log = buildLogger(configFn);
-	const log = new Log(getModuleLabel(module));
-	expect(configFn.mock.calls.length).toStrictEqual(0);
+	const log = new Log(getModuleLabel(import.meta));
+	assert.strictEqual(configFn.callCount, 0);
 	log.debug(colors.debug("test"));
-	expect(configFn.mock.calls.length).toStrictEqual(1);
+	assert.strictEqual(configFn.callCount, 1);
+});
+
+test("test getModuleLabel handle esm module urls", () => {
+	assert.strictEqual(
+		getModuleLabel({
+			url: "file:///C:/workspace/m7d/node-colorful-log/src/lib/node.test.ts",
+		}),
+		"src/lib/node.test.ts"
+	);
 });

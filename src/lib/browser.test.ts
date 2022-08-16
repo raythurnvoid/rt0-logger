@@ -1,13 +1,16 @@
+import assert from "node:assert";
+import test from "node:test";
 import { buildLogger } from "./browser.js";
 import type { ConfigFn } from "./types.js";
+import sinon from "sinon";
 
-test("test node logger", () => {
+test("test browser logger", () => {
 	const Log = buildLogger();
-	expect(Log).toBeTruthy();
+	assert.ok(Log);
 	const log = new Log("browser.test.ts");
-	expect(log).toBeTruthy();
+	assert.ok(log);
 
-	expect(() => {
+	assert.doesNotThrow(() => {
 		log.debug("test");
 		log.d("test");
 		log.error("test");
@@ -22,11 +25,11 @@ test("test node logger", () => {
 		log.w("test");
 		log.raw("test");
 		log.r("test");
-	}).not.toThrow();
+	});
 });
 
 test("test config", () => {
-	const configFn = jest.fn((() => {
+	const configFn = sinon.fake((() => {
 		return {
 			logLevel: "none",
 		};
@@ -34,7 +37,7 @@ test("test config", () => {
 
 	const Log = buildLogger(configFn);
 	const log = new Log("browser.test.ts");
-	expect(configFn.mock.calls.length).toStrictEqual(0);
+	assert.strictEqual(configFn.callCount, 0);
 	log.debug("test");
-	expect(configFn.mock.calls.length).toStrictEqual(1);
+	assert.strictEqual(configFn.callCount, 1);
 });

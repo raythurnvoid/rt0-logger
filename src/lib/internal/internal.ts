@@ -7,6 +7,8 @@ export const defaultConfig: Config = {
 export function buildLoggerClass(
 	bindConsoleLog: (level: Level, label?: string) => ConsoleLog
 ): new (label: string) => ILog {
+	const subLogsMap = new Map<string, Log>();
+
 	class Log implements ILog {
 		constructor(private label: string) {}
 
@@ -64,6 +66,17 @@ export function buildLoggerClass(
 
 		get r() {
 			return this.raw;
+		}
+
+		sub(label: string): Log {
+			const subLabel = `${this.label}/${label}`;
+			console.log(subLabel);
+			let subLog = subLogsMap.get(subLabel);
+			if (!subLog) {
+				subLog = new Log(subLabel);
+				subLogsMap.set(subLabel, subLog);
+			}
+			return subLog;
 		}
 	}
 

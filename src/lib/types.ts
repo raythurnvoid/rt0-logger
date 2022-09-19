@@ -21,6 +21,8 @@ export interface ILog {
 
 	raw: ConsoleLog;
 	r: ConsoleLog;
+
+	sub(subLogLabel: string): ILog;
 }
 
 export type ConsoleLog = typeof console.log;

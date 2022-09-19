@@ -1,5 +1,6 @@
 import assert from "node:assert";
 import test from "node:test";
+import { resolve } from "node:path";
 import { buildLogger, colors, c, getModuleLabel } from "./node.js";
 import type { ConfigFn } from "./types.js";
 import sinon from "sinon";
@@ -26,6 +27,17 @@ test("test node logger", () => {
 		log.raw("test");
 		log.r("test");
 	});
+
+	test("test sub log", () => {
+		const sublog = log.sub(":sub");
+		assert.ok(sublog);
+
+		assert.doesNotThrow(() => {
+			sublog.debug(colors.debug("sub test"));
+		});
+
+		assert.deepStrictEqual(sublog, log.sub(":sub"));
+	});
 });
 
 test("test config", () => {
@@ -43,9 +55,11 @@ test("test config", () => {
 });
 
 test("test getModuleLabel handle esm module urls", () => {
+	const root = resolve(".");
+
 	assert.strictEqual(
 		getModuleLabel({
-			url: "file:///C:/workspace/m7d/node-colorful-log/src/lib/node.test.ts",
+			url: `file:///${root.replaceAll("\\", "/")}/src/lib/node.test.ts`,
 		}),
 		"src/lib/node.test.ts"
 	);

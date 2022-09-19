@@ -26,6 +26,17 @@ test("test browser logger", () => {
 		log.raw("test");
 		log.r("test");
 	});
+
+	test("test sub log", () => {
+		const sublog = log.sub(":sub");
+		assert.ok(sublog);
+
+		assert.doesNotThrow(() => {
+			sublog.debug("sub test");
+		});
+
+		assert.deepStrictEqual(sublog, log.sub(":sub"));
+	});
 });
 
 test("test config", () => {

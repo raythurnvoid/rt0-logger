@@ -37,6 +37,21 @@ test("test browser logger", () => {
 
 		assert.deepStrictEqual(sublog, log.sub(":sub"));
 	});
+
+	test("test prefix", () => {
+		const Log = buildLogger(() => ({
+			logLevel: "debug",
+			prefix: () => `[${new Date().toISOString()}]`,
+		}));
+
+		const log = new Log("test-prefix");
+
+		assert.ok(log);
+
+		assert.doesNotThrow(() => {
+			log.debug("prefix test");
+		});
+	});
 });
 
 test("test config", () => {

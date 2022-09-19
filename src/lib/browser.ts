@@ -1,5 +1,6 @@
 import {
 	buildLoggerClass,
+	createLogBaseArgs,
 	defaultConfig,
 	getLogLevelValue,
 } from "./internal/internal.js";
@@ -17,11 +18,8 @@ export function buildLogger(
 			return () => undefined;
 		}
 
-		const args = [];
-		if (label) {
-			args.push(`[${label}]`);
-		}
-		args.push(`[${level.toUpperCase()}]`);
+		const args = createLogBaseArgs(config, label);
+
 		return console[logLevel].bind(console, ...args);
 	}
 

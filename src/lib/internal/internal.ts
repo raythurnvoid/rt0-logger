@@ -83,6 +83,20 @@ export function buildLoggerClass(
 	return Log;
 }
 
+export function createLogBaseArgs(config: Config, label: string | undefined) {
+	const args = [];
+
+	if (config.prefix) {
+		args.push(config.prefix());
+	}
+
+	if (label) {
+		args.push(`[${label}]`);
+	}
+
+	return args;
+}
+
 export function getLogLevelValue(logLevel: string) {
 	return logLevels.indexOf(logLevel as Config["logLevel"]);
 }

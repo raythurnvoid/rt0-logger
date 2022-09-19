@@ -1,6 +1,7 @@
 import { colors } from "./internal/colors.js";
 import {
 	buildLoggerClass,
+	createLogBaseArgs,
 	defaultConfig,
 	getLogLevelValue,
 } from "./internal/internal.js";
@@ -18,10 +19,8 @@ export function buildLogger(
 			return () => undefined;
 		}
 
-		const args = [];
-		if (label) {
-			args.push(`[${label}]`);
-		}
+		const args = createLogBaseArgs(config, label);
+
 		args.push(colors[level](`[${level.toUpperCase()}]`));
 		return console[logLevel].bind(console, ...args);
 	}

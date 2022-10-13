@@ -83,12 +83,8 @@ export function buildLoggerClass(
 	return Log;
 }
 
-export function createLogBaseArgs(config: Config, label: string | undefined) {
+export function createLogBaseArgs(label: string | undefined) {
 	const args = [];
-
-	if (config.prefix) {
-		args.push(config.prefix());
-	}
 
 	if (label) {
 		args.push(`[${label}]`);

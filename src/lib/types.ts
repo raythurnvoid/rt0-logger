@@ -31,7 +31,11 @@ export type ConfigFn = () => Config;
 
 export interface Config {
 	logLevel: typeof logLevels[number];
-	prefix?: () => string;
+	hook?: (input: {
+		args: any[],
+		level: Level;
+		label?: string;
+	}) => any[];
 }
 
 export type Level = "debug" | "info" | "warn" | "error" | "success" | "fail";

@@ -1,6 +1,13 @@
 import { buildLogger, c, colors, getModuleLabel } from "./lib/node.js";
 
-const Log = buildLogger();
+const Log = buildLogger(() => {
+	return {
+		logLevel: "debug",
+		hook(input) {
+				return ['[test]', ...input.args]
+		},
+	}
+});
 const log = new Log(getModuleLabel(import.meta));
 
 log.debug(colors.debug("test"));

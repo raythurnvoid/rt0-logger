@@ -19,9 +19,18 @@ export function buildLogger(
 			return () => undefined;
 		}
 
-		const args = createLogBaseArgs(config, label);
+		let args = createLogBaseArgs(label);
 
 		args.push(colors[level](`[${level.toUpperCase()}]`));
+
+		if (config.hook) {
+			args = config.hook({
+				args,
+				level,
+				label
+			})
+		}
+
 		return console[logLevel].bind(console, ...args);
 	}
 

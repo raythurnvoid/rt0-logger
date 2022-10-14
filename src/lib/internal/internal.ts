@@ -69,8 +69,7 @@ export function buildLoggerClass(
 		}
 
 		sub(label: string): Log {
-			const subLabel = `${this.label}/${label}`;
-			console.log(subLabel);
+			const subLabel = `${this.label}${label}`;
 			let subLog = subLogsMap.get(subLabel);
 			if (!subLog) {
 				subLog = new Log(subLabel);

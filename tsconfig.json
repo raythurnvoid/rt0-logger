@@ -1,9 +1,24 @@
 {
-	"extends": "@raythurnevoid/ts-node-template/tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": "."
+		"baseUrl": ".",
+		"target": "ESNext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"importsNotUsedAsValues": "error",
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"lib": [
+			"ESNext"
+		],
+		"types": [
+			"node"
+		]
 	},
 	"include": [
-		"src"
-	]
+		"./src",
+	],
 }

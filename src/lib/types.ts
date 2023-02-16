@@ -1,5 +1,3 @@
-import type { logLevels } from "./internal/internal.js";
-
 export interface ILog {
 	debug: ConsoleLog;
 	d: ConsoleLog;
@@ -22,7 +20,7 @@ export interface ILog {
 	raw: ConsoleLog;
 	r: ConsoleLog;
 
-	sub(subLogLabel: string): ILog;
+	sub(subLogLabel?: string): ILog;
 }
 
 export type ConsoleLog = typeof console.log;
@@ -30,12 +28,14 @@ export type ConsoleLog = typeof console.log;
 export type ConfigFn = () => Config;
 
 export interface Config {
-	logLevel: typeof logLevels[number];
-	hook?: (input: {
-		args: any[],
-		level: Level;
-		label?: string;
-	}) => any[];
+	logLevel?: ConfigurableLogLevel;
+	hook?: (input: { args: any[]; level: Level; label?: string }) =>
+		| {
+				args: any[];
+		  }
+		| { logger: (...args: any[]) => any };
 }
 
 export type Level = "debug" | "info" | "warn" | "error" | "success" | "fail";
+
+export type ConfigurableLogLevel = "none" | Exclude<Level, "success" | "fail">;

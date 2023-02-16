@@ -1,10 +1,8 @@
-import assert from "node:assert";
-import test from "node:test";
+import { it, assert, expect, vi, describe, afterEach } from "vitest";
 import { buildLogger } from "./browser.js";
 import type { ConfigFn } from "./types.js";
-import sinon from "sinon";
 
-test("test browser logger", () => {
+describe("test browser logger", () => {
 	const Log = buildLogger();
 	assert.ok(Log);
 	const log = new Log("browser.test.ts");
@@ -27,7 +25,7 @@ test("test browser logger", () => {
 		log.r("test");
 	});
 
-	test("test sub log", () => {
+	it("test sub log", () => {
 		const sublog = log.sub(":sub");
 		assert.ok(sublog);
 
@@ -38,7 +36,7 @@ test("test browser logger", () => {
 		assert.deepStrictEqual(sublog, log.sub(":sub"));
 	});
 
-	test("test prefix", () => {
+	it("test prefix", () => {
 		const Log = buildLogger(() => ({
 			logLevel: "debug",
 			prefix: () => `[${new Date().toISOString()}]`,
@@ -54,8 +52,8 @@ test("test browser logger", () => {
 	});
 });
 
-test("test config", () => {
-	const configFn = sinon.fake((() => {
+it("configFn should be called once", () => {
+	const configFn = vi.fn((() => {
 		return {
 			logLevel: "none",
 		};
@@ -63,7 +61,54 @@ test("test config", () => {
 
 	const Log = buildLogger(configFn);
 	const log = new Log("browser.test.ts");
-	assert.strictEqual(configFn.callCount, 0);
+
+	expect(configFn).toHaveBeenCalledTimes(0);
 	log.debug("test");
-	assert.strictEqual(configFn.callCount, 1);
+	expect(configFn).toHaveBeenCalledTimes(1);
+});
+
+describe("test logLevel config", () => {
+	const configFn = vi.fn((() => {
+		return {
+			logLevel: "none",
+		};
+	}) as ConfigFn);
+
+	const Log = buildLogger(configFn);
+	const log = new Log("browser.test.ts");
+
+	it("when logLevel is none console should not be called", () => {
+		const spy = vi.spyOn(console, "debug");
+		log.debug("test");
+		expect(spy).toHaveBeenCalledTimes(0);
+	});
+
+	it("when logLevel is debug console should be called", () => {
+		const spy = vi.spyOn(console, "debug");
+		configFn.mockReturnValueOnce({ logLevel: "debug" });
+		log.debug("test");
+		expect(spy).toHaveBeenCalledTimes(1);
+	});
+});
+
+describe("test custom logger", () => {
+	const loggerMock = vi.fn((...args: any[]) => {});
+	const Log = buildLogger(() => ({
+		hook: () => {
+			return { logger: loggerMock };
+		},
+	}));
+	const log = new Log("browser.test.ts");
+
+	it("when custom logger is provided, it should be called", () => {
+		expect(loggerMock).toHaveBeenCalledTimes(0);
+		log.debug("test");
+		expect(loggerMock).toHaveBeenCalledTimes(1);
+	});
+
+	it("when custom logger is provided, console logger shouldn't be called", () => {
+		const spy = vi.spyOn(console, "debug");
+		log.debug("test");
+		expect(spy).toHaveBeenCalledTimes(0);
+	});
 });

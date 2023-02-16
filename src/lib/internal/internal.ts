@@ -1,16 +1,30 @@
-import type { Config, ConsoleLog, ILog, Level } from "../types.js";
+import type {
+	Config,
+	ConfigFn,
+	ConfigurableLogLevel,
+	ConsoleLog,
+	ILog,
+	Level,
+} from "../types.js";
 
-export const defaultConfig: Config = {
-	logLevel: "debug",
-};
+export function computeConfig(configFn?: ConfigFn) {
+	const config = Object.assign(
+		{
+			logLevel: "debug",
+		},
+		configFn?.() ?? {}
+	);
+
+	return config;
+}
 
 export function buildLoggerClass(
 	bindConsoleLog: (level: Level, label?: string) => ConsoleLog
-): new (label: string) => ILog {
+): new (label?: string) => ILog {
 	const subLogsMap = new Map<string, Log>();
 
 	class Log implements ILog {
-		constructor(private label: string) {}
+		constructor(private label?: string) {}
 
 		get debug(): ConsoleLog {
 			return bindConsoleLog("debug", this.label);
@@ -92,8 +106,43 @@ export function createLogBaseArgs(label: string | undefined) {
 	return args;
 }
 
-export function getLogLevelValue(logLevel: string) {
-	return logLevels.indexOf(logLevel as Config["logLevel"]);
+export function getLogLevelValue(logLevel: Level | ConfigurableLogLevel) {
+	return logLevels.indexOf(logLevel);
 }
 
-export const logLevels = ["none", "error", "warn", "info", "debug"] as const;
+export function getConsoleLogFn(level: Level) {
+	const consoleLogLevel =
+		level === "success" ? "info" : level === "fail" ? "error" : level;
+
+	return console[consoleLogLevel];
+}
+
+export function createLogger(
+	config: Config,
+	level: Level,
+	label: string | undefined,
+	args: any[]
+) {
+	let hookResult = config.hook?.({
+		args,
+		level,
+		label,
+	}) ?? { args };
+
+	const logger =
+		"logger" in hookResult && hookResult.logger
+			? hookResult.logger
+			: getConsoleLogFn(level).bind(console, ...args);
+
+	return logger;
+}
+
+export const logLevels: (Level | ConfigurableLogLevel)[] = [
+	"none",
+	"fail",
+	"error",
+	"warn",
+	"success",
+	"info",
+	"debug",
+];

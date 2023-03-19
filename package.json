@@ -1,44 +1,59 @@
 {
 	"name": "@raythurnevoid/rt0-logger",
-	"version": "2.1.0",
-	"description": "",
+	"version": "2.1.1",
+	"description": "Customizable logger that shows log levels",
+	"exports": {
+		"./browser": "./dist/browser.js",
+		"./node": "./dist/node.js",
+		"./utils": "./dist/utils.js",
+		"./types": "./dist/types.js"
+	},
 	"scripts": {
 		"dev": "vite-node --watch ./src/index.ts",
 		"dev:inspect": "node --inspect-brk ./node_modules/vite-node/vite-node.mjs --watch ./src/index.ts",
 		"build": "vite build",
 		"preview": "node ./dist/index.js",
-		"lib": "npm run build && npm run lib:copy",
-		"lib:copy": "copyfiles ./package.json dist",
-		"package": "npm run build && copyfiles ./package.json dist && publint ./dist",
+		"package": "npm run build && publint",
 		"lint": "prettier --plugin-search-dir . --check .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test": "vitest"
 	},
 	"type": "module",
+	"files": [
+		"dist",
+		"package.json",
+		"package-lock.json",
+		"README.md"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
-	"exports": {
-		"./browser": "./browser.js",
-		"./node": "./node.js",
-		"./utils": "./utils.js",
-		"./types": "./types.js"
-	},
+	"keywords": [
+		"logging",
+		"logger",
+		"colors",
+		"levels",
+		"level"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/raythurnevoid/rt0-logger.git"
+	},
+	"bugs": {
+		"url": "https://github.com/raythurnevoid/rt0-logger/issues"
 	},
 	"author": "Ray Thurne",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^18.15.3",
-		"chalk": "^5.2.0",
-		"copyfiles": "^2.4.1",
-		"rollup-plugin-dts": "^5.3.0",
-		"typescript": "5.0.2",
 		"vite": "^4.2.0",
 		"vite-node": "^0.29.3",
 		"vite-plugin-dts": "^2.1.0",
-		"vitest": "^0.29.3"
+		"vitest": "^0.29.3",
+		"typescript": "^5.0.2",
+		"publint": "^0.1.10"
+	},
+	"dependencies": {
+		"chalk": "^5.2.0"
 	}
 }

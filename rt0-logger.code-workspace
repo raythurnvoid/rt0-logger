@@ -26,45 +26,12 @@
 		"typescript.preferences.importModuleSpecifierEnding": "js",
 		"typescript.enablePromptUseWorkspaceTsdk": true
 	},
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"type": "node",
-				"request": "launch",
-				"name": "Launch dws-aem-credentials-store",
-				"cwd": "${workspaceFolder}",
-				"runtimeArgs": [
-					"--inspect",
-					"--async-stack-traces",
-					"-r",
-					"${workspaceFolder}/node_modules/ts-node/register",
-					"-r",
-					"${workspaceFolder}/node_modules/tsconfig-paths/register"
-				],
-				"skipFiles": [
-					"<node_internals>/**"
-				],
-				"program": "${workspaceFolder}/src/index.ts",
-				"outFiles": [
-					"${workspaceFolder}/**/*.js"
-				],
-				"env": {
-					"TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
-				}
-			}
-		]
-	},
 	"extensions": {
 		"recommendations": [
 			"esbenp.prettier-vscode",
-			"svelte.svelte-vscode",
 			"aaron-bond.better-comments",
-			"wmaurer.change-case",
 			"mikestead.dotenv",
 			"usernamehw.errorlens",
-			"christian-kohler.path-intellisense",
-			"searKing.preview-vscode",
 			"pflannery.vscode-versionlens",
 			"vscode-icons-team.vscode-icons",
 		]

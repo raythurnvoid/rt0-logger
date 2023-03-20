@@ -46,12 +46,12 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^18.15.3",
+		"publint": "^0.1.10",
+		"typescript": "^5.0.2",
 		"vite": "^4.2.0",
 		"vite-node": "^0.29.3",
 		"vite-plugin-dts": "^2.1.0",
-		"vitest": "^0.29.3",
-		"typescript": "^5.0.2",
-		"publint": "^0.1.10"
+		"vitest": "^0.29.3"
 	},
 	"dependencies": {
 		"chalk": "^5.2.0"

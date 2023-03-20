@@ -21,11 +21,11 @@
 1. Create a `log.ts` file:
 
 ```typescript
-import { buildLogger } from "@raythurnevoid/rt0-logger/browser.js";
-import type { Config } from "@raythurnevoid/rt0-logger/types.js";
+import { buildLogger } from '@raythurnevoid/rt0-logger/browser.js';
+import type { Config } from '@raythurnevoid/rt0-logger/types.js';
 
 const config: Config = {
-  logLevel: "debug",
+  logLevel: 'debug'
 };
 
 export const Log = buildLogger(() => config);
@@ -36,9 +36,9 @@ export type Log = InstanceType<typeof Log>;
 2. Use your new logger:
 
 ```typescript
-import { Log } from "./log.js";
+import { Log } from './log.js';
 
-const log = new Log("path/to/module.ts");
+const log = new Log('path/to/module.ts');
 
 log.info(`Hello World}`);
 log.i(`Hello World}`);
@@ -56,32 +56,32 @@ Results:
 You can use any of these methods to log:
 
 ```typescript
-log.info("info message");
-log.i("info message");
+log.info('info message');
+log.i('info message');
 // [path/to/module.ts] [INFO] info message
 
-log.debug("debug message");
-log.d("debug message");
+log.debug('debug message');
+log.d('debug message');
 // [path/to/module.ts] [DEBUG] debug message
 
-log.warn("warn message");
-log.w("warn message");
+log.warn('warn message');
+log.w('warn message');
 // [path/to/module.ts] [WARN] warn message
 
-log.error("error message");
-log.e("error message");
+log.error('error message');
+log.e('error message');
 // [path/to/module.ts] [ERROR] error message
 
-log.fail("fail message");
-log.f("fail message");
+log.fail('fail message');
+log.f('fail message');
 // [path/to/module.ts] [FAIL] fail message
 
-log.success("success message");
-log.s("success message");
+log.success('success message');
+log.s('success message');
 // [path/to/module.ts] [SUCCESS] success message
 
-log.raw("raw message");
-log.r("raw message");
+log.raw('raw message');
+log.r('raw message');
 // raw message
 ```
 
@@ -90,9 +90,9 @@ log.r("raw message");
 You can also create a new logger with additional context:
 
 ```typescript
-const sub = log.sub(":method");
+const sub = log.sub(':method');
 
-log.i("info message");
+log.i('info message');
 // [path/to/module.ts:method] [INFO] info message
 ```
 
@@ -117,16 +117,16 @@ The default value is `"debug"`.
 ### Example
 
 ```typescript
-import { buildLogger } from "@raythurnevoid/rt0-logger";
+import { buildLogger } from '@raythurnevoid/rt0-logger';
 const Log = buildLogger(() => {
   return {
-    logLevel: "info",
+    logLevel: 'info'
   };
 });
-const log = new Log("my-module");
-log.debug("Hello World");
+const log = new Log('my-module');
+log.debug('Hello World');
 // Won't be logged
-log.info("Hello World");
+log.info('Hello World');
 // Will be logged
 ```
 
@@ -146,8 +146,8 @@ it must return one of the following:
   Arguments that will be used by default to bind the console functions when the hooks doesn't return an object with the `logger` property.
 
   ```typescript
-  const log = new Log("my-module");
-  log.info("Hello", "World");
+  const log = new Log('my-module');
+  log.info('Hello', 'World');
   // args = ["my-module", "[INFO]"]
   ```
 
@@ -156,7 +156,7 @@ it must return one of the following:
   The log level.
 
   ```typescript
-  log.info("Hello World");
+  log.info('Hello World');
   // level = "info"
   ```
 
@@ -165,8 +165,8 @@ it must return one of the following:
   The label of the logger.
 
   ```typescript
-  const log = new Log("my-module");
-  log.info("Hello World");
+  const log = new Log('my-module');
+  log.info('Hello World');
   // label = "my-module"
   ```
 
@@ -200,21 +200,21 @@ The `hook` function can return one of the following:
   This function will be called with the arguments set by the user.
 
   ```typescript
-  import { buildLogger } from "@raythurnevoid/rt0-logger";
+  import { buildLogger } from '@raythurnevoid/rt0-logger';
   const Log = buildLogger(() => {
     return {
       hook: () => {
         return {
           logger: (...args) => {
             // The args are ["Hello", "World"]
-            console.log("custom logger");
-          },
+            console.log('custom logger');
+          }
         };
-      },
+      }
     };
   });
-  const log = new Log("my-module");
-  log.info("Hello", "World");
+  const log = new Log('my-module');
+  log.info('Hello', 'World');
   // will log: "custom logger"
   ```
 
@@ -225,7 +225,7 @@ The `hook` function can return one of the following:
 **rt0-logger** can colorize your log levels using `chalk` by replacing `@raythurnevoid/rt0-logger/browser.js` with `@raythurnevoid/rt0-logger/node`:
 
 ```typescript
-import { buildLogger } from "@raythurnevoid/rt0-logger/node.js";
+import { buildLogger } from '@raythurnevoid/rt0-logger/node.js';
 ```
 
 Colors don't make sense in browser environment and will just increase the size of your bundle.
@@ -237,19 +237,19 @@ The colors used by this package are exported in the `@raythurnevoid/rt0-logger/c
 # Log errors including cause in the stack trace
 
 ```typescript
-import { Log } from "./log.js";
-import { getErrorStackWithCause } from "@raythurnevoid/rt0-logger/utils.js";
+import { Log } from './log.js';
+import { getErrorStackWithCause } from '@raythurnevoid/rt0-logger/utils.js';
 
-const log = new Log("path/to/module.ts");
+const log = new Log('path/to/module.ts');
 
 try {
-  throw new Error("Failed to do things");
+  throw new Error('Failed to do things');
 } catch (e) {
   try {
-    throw new Error("Failed to handle error");
+    throw new Error('Failed to handle error');
   } catch (e) {
-    const error = new Error("Scary error", {
-      cause: e as Error,
+    const error = new Error('Scary error', {
+      cause: e as Error
     });
 
     log.e(getErrorStackWithCause(error));

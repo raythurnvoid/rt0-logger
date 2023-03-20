@@ -6,7 +6,7 @@
 
 [Colors](#colors)
 
-[Errors ](#errors)
+[Errors Stack Traces with Cause](#errors)
 
 <a name="installation" />
 

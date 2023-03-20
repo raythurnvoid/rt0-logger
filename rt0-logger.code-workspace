@@ -24,7 +24,10 @@
 		"typescript.tsdk": "node_modules\\typescript\\lib",
 		"typescript.preferences.importModuleSpecifier": "relative",
 		"typescript.preferences.importModuleSpecifierEnding": "js",
-		"typescript.enablePromptUseWorkspaceTsdk": true
+		"typescript.enablePromptUseWorkspaceTsdk": true,
+		"yaml.schemas": {
+			"https://json.schemastore.org/github-workflow.json": "file:///c%3A/workspace/rt0/rt0-logger/.github/workflows/publish"
+		}
 	},
 	"extensions": {
 		"recommendations": [

@@ -25,7 +25,7 @@ import { buildLogger } from "@raythurnevoid/rt0-logger/browser.js";
 import type { Config } from "@raythurnevoid/rt0-logger/types.js";
 
 const config: Config = {
-	logLevel: "debug",
+  logLevel: "debug",
 };
 
 export const Log = buildLogger(() => config);
@@ -119,9 +119,9 @@ The default value is `"debug"`.
 ```typescript
 import { buildLogger } from "@raythurnevoid/rt0-logger";
 const Log = buildLogger(() => {
-	return {
-		logLevel: "info",
-	};
+  return {
+    logLevel: "info",
+  };
 });
 const log = new Log("my-module");
 log.debug("Hello World");
@@ -182,11 +182,11 @@ The `hook` function can return one of the following:
   import { buildLogger } from "@raythurnevoid/rt0-logger";
   const Log = buildLogger(() => {
   return {
-  	hook: () => {
-  		return {
-  			args: ["[custom-arg]"]
-  		}
-  	}
+    hook: () => {
+      return {
+        args: ["[custom-arg]"]
+      }
+    }
   });
   const log = new Log("my-module");
   log.info("Hello World");
@@ -202,16 +202,16 @@ The `hook` function can return one of the following:
   ```typescript
   import { buildLogger } from "@raythurnevoid/rt0-logger";
   const Log = buildLogger(() => {
-  	return {
-  		hook: () => {
-  			return {
-  				logger: (...args) => {
-  					// The args are ["Hello", "World"]
-  					console.log("custom logger");
-  				},
-  			};
-  		},
-  	};
+    return {
+      hook: () => {
+        return {
+          logger: (...args) => {
+            // The args are ["Hello", "World"]
+            console.log("custom logger");
+          },
+        };
+      },
+    };
   });
   const log = new Log("my-module");
   log.info("Hello", "World");
@@ -243,17 +243,17 @@ import { getErrorStackWithCause } from "@raythurnevoid/rt0-logger/utils.js";
 const log = new Log("path/to/module.ts");
 
 try {
-	throw new Error("Failed to do things");
+  throw new Error("Failed to do things");
 } catch (e) {
-	try {
-		throw new Error("Failed to handle error");
-	} catch (e) {
-		const error = new Error("Scary error", {
-			cause: e as Error,
-		});
+  try {
+    throw new Error("Failed to handle error");
+  } catch (e) {
+    const error = new Error("Scary error", {
+      cause: e as Error,
+    });
 
-		log.e(getErrorStackWithCause(error));
-	}
+    log.e(getErrorStackWithCause(error));
+  }
 }
 ```
 

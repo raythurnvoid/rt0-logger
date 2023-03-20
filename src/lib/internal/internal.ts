@@ -3,8 +3,9 @@ import type {
 	ConfigFn,
 	ConfigurableLogLevel,
 	ConsoleLog,
-	ILog,
 	Level,
+	Log as ILog,
+	LogConstructor,
 } from "../types.js";
 
 export function computeConfig(configFn?: ConfigFn) {
@@ -20,9 +21,7 @@ export function computeConfig(configFn?: ConfigFn) {
 
 export function buildLoggerClass(
 	bindConsoleLog: (level: Level, label?: string) => ConsoleLog
-): new (label?: string) => ILog {
-	const subLogsMap = new Map<string, Log>();
-
+): LogConstructor {
 	class Log implements ILog {
 		constructor(private label?: string) {}
 
@@ -84,12 +83,7 @@ export function buildLoggerClass(
 
 		sub(label: string): Log {
 			const subLabel = `${this.label}${label}`;
-			let subLog = subLogsMap.get(subLabel);
-			if (!subLog) {
-				subLog = new Log(subLabel);
-				subLogsMap.set(subLabel, subLog);
-			}
-			return subLog;
+			return new Log(subLabel);
 		}
 	}
 
@@ -129,12 +123,98 @@ export function createLogger(
 		label,
 	}) ?? { args };
 
-	const logger =
-		"logger" in hookResult && hookResult.logger
-			? hookResult.logger
-			: getConsoleLogFn(level).bind(console, ...args);
+	let logger: (...args: any[]) => any;
+
+	if ("logger" in hookResult && hookResult.logger) {
+		logger = hookResult.logger;
+	} else {
+		hookResult = hookResult as { args: any[] };
+		logger = getConsoleLogFn(level).bind(console, ...hookResult.args);
+	}
 
 	return logger;
+}
+
+if (import.meta.vitest) {
+	const { it, assert, expect, vi, describe } = import.meta.vitest;
+
+	describe("createLogger", () => {
+		it("should return a function that logs to console", () => {
+			const spy = vi.spyOn(console, "debug");
+
+			const logger = createLogger(
+				{ logLevel: "debug" },
+				"debug",
+				"test-module.ts",
+				["[test-module.ts]", "[DEBUG]"]
+			);
+
+			expect(logger).toBeInstanceOf(Function);
+
+			logger("test");
+			console.log(logger);
+
+			expect(spy).toHaveBeenCalledWith("[test-module.ts]", "[DEBUG]", "test");
+		});
+
+		it("should override the arguments passed to the console with the hook confguration", () => {
+			const spy = vi.spyOn(console, "debug");
+
+			const logger = createLogger(
+				{
+					logLevel: "debug",
+					hook: ({ args }) => {
+						return {
+							args: ["[custom-arg]"],
+						};
+					},
+				},
+				"debug",
+				"test-module.ts",
+				["[test-module.ts]", "[DEBUG]"]
+			);
+
+			logger("test");
+
+			expect(spy).toHaveBeenCalledWith("[custom-arg]", "test");
+		});
+
+		it("should override the called function with the hook configuration", () => {
+			const consoleDebugSpy = vi.spyOn(console, "debug");
+			const consoleLogSpy = vi.spyOn(console, "log");
+			const customLogger = vi.fn((options: { message: string }) => {
+				console.log(options.message);
+			});
+
+			const logger = createLogger(
+				{
+					logLevel: "debug",
+					hook: ({ args }) => {
+						return {
+							logger: (...logArgs: any[]) => {
+								const options = {
+									message: logArgs.join(" "),
+								};
+								customLogger(options);
+								console.log(...args);
+							},
+						};
+					},
+				},
+				"debug",
+				"test-module.ts",
+				["[test-module.ts]", "[DEBUG]"]
+			);
+
+			logger("test", "message");
+
+			expect(customLogger).toHaveBeenCalledWith({
+				message: "test message",
+			});
+			expect(consoleLogSpy).toHaveBeenCalledWith("[test-module.ts]", "[DEBUG]");
+			expect(consoleDebugSpy).not.toHaveBeenCalled();
+		});
+	});
 }
 
 export const logLevels: (Level | ConfigurableLogLevel)[] = [

@@ -6,9 +6,19 @@ import {
 	getLogLevelValue,
 	computeConfig,
 } from "./internal/internal.js";
-import type { ConfigFn, ILog, Level } from "./types.js";
+import type { ConfigFn, Level } from "./types.js";
 
-export function buildLogger(configFn?: ConfigFn): new (label: string) => ILog {
+/**
+ * Create a new logger constructor.
+ */
+export function buildLogger(
+	/**
+	 * A function that returns the configuration for the logger.
+	 *
+	 * The configuration can be changed on the fly by mutating the returned object.
+	 */
+	configFn?: ConfigFn
+): typeof Log {
 	function bindConsoleLog(level: Level, label?: string) {
 		const config = computeConfig(configFn);
 
@@ -28,7 +38,7 @@ export function buildLogger(configFn?: ConfigFn): new (label: string) => ILog {
 	return Log;
 }
 
-export { c, colors } from "./internal/colors.js";
+export { colors, c } from "./internal/colors.js";
 
 if (import.meta.vitest) {
 	const { it, assert, vi, expect, describe } = import.meta.vitest;
@@ -142,6 +152,28 @@ if (import.meta.vitest) {
 			const spy = vi.spyOn(console, "debug");
 			log.debug("test");
 			expect(spy).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	describe("buildLogger", () => {
+		it("should override arguments when args is returned in the hook configuration", () => {
+			const spy = vi.spyOn(console, "info");
+
+			const Log = buildLogger(() => ({
+				hook: ({ args }) => {
+					expect(args).toEqual([
+						"[browser.test.ts]",
+						expect.stringContaining("[INFO]"),
+					]);
+					return { args: ["[custom-arg]"] };
+				},
+			}));
+
+			const log = new Log("browser.test.ts");
+			log.info("test");
+
+			expect(spy).toHaveBeenCalledTimes(1);
+			expect(spy).toHaveBeenCalledWith("[custom-arg]", "test");
 		});
 	});
 }

@@ -4,9 +4,7 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "NodeNext",
-		"importsNotUsedAsValues": "error",
-		"isolatedModules": true,
-		"preserveValueImports": true,
+		"verbatimModuleSyntax": true,
 		"allowJs": true,
 		"checkJs": true,
 		"esModuleInterop": true,
@@ -27,4 +25,13 @@
 	"include": [
 		"./src",
 	],
+	"typedocOptions": {
+		"entryPoints": [
+			"./src/lib/browser.ts",
+			"./src/lib/node.ts",
+			"./src/lib/utils.ts",
+			"./src/lib/types.ts"
+		],
+		"out": "docs"
+	}
 }

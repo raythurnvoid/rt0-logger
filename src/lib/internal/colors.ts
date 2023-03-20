@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import type { Level } from "../types.js";
 
-export namespace c {
+export namespace colors {
 	export const debug = chalk[getColor("debug")];
 	export const d = debug;
 
@@ -21,7 +21,7 @@ export namespace c {
 	export const f = fail;
 }
 
-export const colors = c;
+export { colors as c };
 
 export function getColor(level: Level) {
 	switch (level) {

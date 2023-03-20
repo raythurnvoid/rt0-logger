@@ -1,4 +1,5 @@
 import { buildLogger, c, colors } from "./lib/node.js";
+import type { Log, Config } from "./lib/types.js";
 
 const Log = buildLogger(() => {
 	return {
@@ -6,9 +7,9 @@ const Log = buildLogger(() => {
 		hook(input) {
 			return { args: ["[test]", ...input.args] };
 		},
-	};
+	} as Config;
 });
-const log = new Log("test/module");
+const log: Log = new Log("test/module");
 
 log.debug(colors.debug("test"));
 log.d(c.d("test"));

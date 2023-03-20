@@ -1,3 +1,6 @@
+/**
+ * Get the stack trace from an error and its cause recursively.
+ */
 export function getErrorStackWithCause(error: Error): string {
 	let stack = error.stack ?? "";
 
@@ -18,11 +21,13 @@ if (import.meta.vitest) {
 	describe("getErrorStackWithCause", () => {
 		it("should return stack with cause", () => {
 			const error = new Error("error", {
-				cause: new Error("cause"),
+				cause: new Error("cause", {
+					cause: new Error("real cause"),
+				}),
 			});
-			error.cause = new Error("cause");
 			const stack = getErrorStackWithCause(error);
 			expect(stack).toContain("Caused by: Error: cause");
+			expect(stack).toContain("Caused by: Error: real cause");
 		});
 	});
 }

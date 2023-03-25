@@ -1,29 +1,25 @@
 {
 	"name": "@raythurnevoid/rt0-logger",
-	"version": "2.1.5",
-	"description": "Customizable logger that shows log levels",
+	"version": "3.0.0",
+	"description": "Customizable logger that shows log level",
 	"exports": {
-		"./browser": "./dist/browser.js",
-		"./node": "./dist/node.js",
-		"./utils": "./dist/utils.js",
-		"./types": "./dist/types.js"
+		"./log": "./log.js",
+		"./colors": "./colors.js",
+		"./utils": "./utils.js"
 	},
 	"scripts": {
 		"dev": "vite-node --watch ./src/index.ts",
 		"dev:inspect": "node --inspect-brk ./node_modules/vite-node/vite-node.mjs --watch ./src/index.ts",
 		"build": "vite build",
 		"preview": "node ./dist/index.js",
-		"package": "npm run build && publint",
+		"package": "npm run build && copyfiles ./package.json ./dist && cd ./dist && publint",
 		"lint": "prettier --plugin-search-dir . --check .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test": "vitest"
 	},
 	"type": "module",
 	"files": [
-		"dist",
-		"package.json",
-		"package-lock.json",
-		"README.md"
+		"."
 	],
 	"publishConfig": {
 		"access": "public"
@@ -46,6 +42,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^18.15.3",
+		"copyfiles": "^2.4.1",
 		"publint": "^0.1.10",
 		"typescript": "^5.0.2",
 		"vite": "^4.2.0",

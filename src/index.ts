@@ -1,27 +1,20 @@
-import { buildLogger, c, colors } from "./lib/node.js";
-import type { Log, Config } from "./lib/types.js";
+import { colors } from './lib/colors.js';
+import { Log, checkIfShouldLog, convertLevelTagToLogLevel, type LogLevel } from './lib/log.js';
 
-const Log = buildLogger(() => {
-	return {
-		logLevel: "debug",
-		hook(input) {
-			return { args: ["[test]", ...input.args] };
-		},
-	} as Config;
-});
-const log: Log = new Log("test/module");
+const logLevel: LogLevel = 'info';
 
-log.debug(colors.debug("test"));
-log.d(c.d("test"));
-log.error(colors.error("test"));
-log.e(c.e("test"));
-log.fail(colors.fail("test"));
-log.f(c.f("test"));
-log.info(colors.info("test"));
-log.i(c.i("test"));
-log.success(colors.success("test"));
-log.s(c.s("test"));
-log.warn(colors.warn("test"));
-log.w(c.w("test"));
-log.raw("test");
-log.r("test");
+function createLogger(label: string) {
+	return new Log(label, {
+		customLogger: ({ label, levelTag, callerArgs }) => {
+			if (!checkIfShouldLog(logLevel, levelTag)) return;
+
+			const dateTime = new Date().toISOString().replace('T', ' ').replace('Z', '');
+			const level = convertLevelTagToLogLevel(levelTag);
+			console[level](colors[levelTag](`[${dateTime}] [${levelTag}] [${label}]`, ...callerArgs));
+		}
+	});
+}
+
+const log: Log = createLogger('test/module');
+
+log.i('test'); // [2021-08-01 12:00:00] [debug] [test/module] test

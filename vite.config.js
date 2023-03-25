@@ -1,35 +1,30 @@
-import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
 	plugins: [dts()],
 	build: {
 		lib: {
-			entry: [
-				"./src/lib/browser.ts",
-				"./src/lib/node.ts",
-				"./src/lib/types.ts",
-				"./src/lib/utils.ts",
-			],
-			fileName: "index",
-			formats: ["es"],
+			entry: ['./src/lib/log.ts', './src/lib/colors.ts', './src/lib/utils.ts'],
+			fileName: 'index',
+			formats: ['es']
 		},
-		target: "esnext",
+		target: 'esnext',
 		ssr: true,
 		minify: false,
 		rollupOptions: {
 			output: {
 				compact: false,
-				preserveModules: true,
-			},
-		},
+				preserveModules: true
+			}
+		}
 	},
 
 	define: {
-		"import.meta.vitest": "undefined",
+		'import.meta.vitest': 'undefined'
 	},
 
 	test: {
-		includeSource: ["src/**/*.{js,ts}"],
-	},
+		includeSource: ['src/**/*.{js,ts}']
+	}
 });

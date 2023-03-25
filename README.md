@@ -1,34 +1,43 @@
-1. Create a `log.ts` file:
+## Features
 
-```typescript
-import { buildLogger } from "@raythurnevoid/rt0-logger/browser.js";
-import type { Config } from "@raythurnevoid/rt0-logger/types.js";
+- Simple and easy-to-use API
+- Log level filtering
+- Custom logger support
+- Works with both Browser and NodeJS
 
-const config: Config = {
-	logLevel: "debug",
-};
+## Installation
 
-export const Log = buildLogger(() => config);
-
-export type Log = InstanceType<typeof Log>;
+```bash
+npm install rt0-logger
 ```
 
-2. Use your new logger:
+## Basic Usage
 
 ```typescript
-import { Log } from "./log.js";
+import { Log } from 'rt0-logger';
 
-const log = new Log("path/to/module.ts");
+const log = new Log('test/module');
 
-log.info(`Hello World}`);
-log.i(`Hello World}`);
+log.d('test'); // [debug] [test/module] test
 ```
 
-Results:
+## Set Log Level
 
-```shell
-[path/to/module.ts] [INFO] Hello World
-[path/to/module.ts] [INFO] Hello World
+```typescript
+import { Log, type LogLevel } from 'rt0-logger';
+
+const logLevel: LogLevel = 'info';
+
+function createLogger(label: string) {
+  return new Log(label, {
+    getLogLevel: () => logLevel
+  });
+}
+
+const log: Log = createLogger('test/module');
+
+log.d('test'); // won't log anything
+log.i('test'); // [info] [test/module] test
 ```
 
 Check the [GitHub homepage](https://github.com/raythurnevoid/rt0-logger) for the complete documentation.

@@ -1,6 +1,6 @@
 {
 	"name": "@raythurnevoid/rt0-logger",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "Customizable logger that shows log level",
 	"exports": {
 		"./log": "./log.js",

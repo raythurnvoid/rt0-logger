@@ -18,12 +18,70 @@ export type LogOptions =
 	| {
 			/**
 			 * @returns The log level to use.
+			 *
+			 * @example
+			 * ```
+			 * //  Define the log level to use.
+			 *
+			 * import { Log } from '@raythurnevoid/rt0-logger';
+			 *
+			 * const log = new Log('test/module', {
+			 *   getLogLevel: () => 'info'
+			 * });
+			 *
+			 * log.d('test'); // won't log anything
+			 * log.i('test'); // [info] [test/module] test
+			 * ```
 			 */
 			getLogLevel: () => LogLevel;
 	  }
 	| {
 			/**
 			 * A custom logger to use instead of the default logger.
+			 *
+			 * @example
+			 * ```
+			 * //  Create a logger to log messages with timestamps.
+			 *
+			 * import { Log, checkIfShouldLog, convertLevelTagToLogLevel } from '@raythurnevoid/rt0-logger';
+			 *
+			 * const log = new Log('test/module', {
+			 *   customLogger: ({ label, levelTag, callerArgs }) => {
+			 *     if (!checkIfShouldLog('info', levelTag)) return;
+			 *
+			 *     const dateTime = new Date().toISOString().replace('T', ' ').replace('Z', '');
+			 *     const level = convertLevelTagToLogLevel(levelTag);
+			 *     console[level](`[${dateTime}] [${levelTag}] [${label}]`, ...callerArgs);
+			 *   }
+			 * });
+			 *
+			 * log.d('test'); // won't log anything
+			 * log.i('test'); // [2021-08-01 12:00:00] [info] [test/module] test
+			 * ```
+			 *
+			 * @example
+			 * ```
+			 * //  Create a logger factory to log colored messages with timestamps.
+			 *
+			 * import { colors } from './lib/colors.js';
+			 * import { Log, checkIfShouldLog, convertLevelTagToLogLevel } from './lib/log.js';
+			 *
+			 * function createLogger(label: string) {
+			 *   return new Log(label, {
+			 *     customLogger: ({ label, levelTag, callerArgs }) => {
+			 *       if (!checkIfShouldLog('debug', levelTag)) return;
+			 *
+			 *       const dateTime = new Date().toISOString().replace('T', ' ').replace('Z', '');
+			 *       const level = convertLevelTagToLogLevel(levelTag);
+			 *       console[level](colors[levelTag](`[${dateTime}] [${levelTag}] [${label}]`), ...callerArgs);
+			 *     }
+			 *   });
+			 * }
+			 *
+			 * const log: Log = createLogger('test/module');
+			 *
+			 * log.d(colors.debug('test')); // [2021-08-01 12:00:00] [debug] [test/module] test
+			 * ```
 			 */
 			customLogger: Logger;
 	  };
@@ -34,7 +92,7 @@ export type LogOptions =
 export class Log {
 	private logger = (input: LoggerInput) =>
 		defaultLogger({ ...input, configuredLogLevel: this.getLogLevel() });
-	private getLogLevel = () => 'debug' as LogLevel;
+	private getLogLevel = () => 'trace' as LogLevel;
 
 	/**
 	 * Creates a new log instance with the specified label.
@@ -49,64 +107,6 @@ export class Log {
 	 * const log = new Log('test/module');
 	 *
 	 * log.d('test'); // [debug] [test/module] test
-	 * ```
-	 *
-	 * @example
-	 * ```
-	 * //  Define the log level to use.
-	 *
-	 * import { Log } from '@raythurnevoid/rt0-logger';
-	 *
-	 * const log = new Log('test/module', {
-	 *   getLogLevel: () => 'info'
-	 * });
-	 *
-	 * log.d('test'); // won't log anything
-	 * log.i('test'); // [info] [test/module] test
-	 * ```
-	 *
-	 * @example
-	 * ```
-	 * //  Create a logger to log messages with timestamps.
-	 *
-	 * import { Log, checkIfShouldLog, convertLevelTagToLogLevel } from '@raythurnevoid/rt0-logger';
-	 *
-	 * const log = new Log('test/module', {
-	 *   customLogger: ({ label, levelTag, callerArgs }) => {
-	 *     if (!checkIfShouldLog('info', levelTag)) return;
-	 *
-	 *     const dateTime = new Date().toISOString().replace('T', ' ').replace('Z', '');
-	 *     const level = convertLevelTagToLogLevel(levelTag);
-	 *     console[level](`[${dateTime}] [${levelTag}] [${label}]`, ...callerArgs);
-	 *   }
-	 * });
-	 *
-	 * log.d('test'); // won't log anything
-	 * log.i('test'); // [2021-08-01 12:00:00] [info] [test/module] test
-	 * ```
-	 *
-	 * @example
-	 * ```
-	 * //  Create a logger factory to log colored messages with timestamps.
-	 *
-	 * import { colors } from './lib/colors.js';
-	 * import { Log, checkIfShouldLog, convertLevelTagToLogLevel } from './lib/log.js';
-	 *
-	 * function createLogger(label: string) {
-	 *   return new Log(label, {
-	 *     customLogger: ({ label, levelTag, callerArgs }) => {
-	 *       if (!checkIfShouldLog('debug', levelTag)) return;
-	 *
-	 *       const dateTime = new Date().toISOString().replace('T', ' ').replace('Z', '');
-	 *       const level = convertLevelTagToLogLevel(levelTag);
-	 *       console[level](colors[levelTag](`[${dateTime}] [${levelTag}] [${label}]`), ...callerArgs);
-	 *     }
-	 *   });
-	 * }
-	 *
-	 * const log: Log = createLogger('test/module');
-	 *
-	 * log.d(colors.debug('test')); // [2021-08-01 12:00:00] [debug] [test/module] test
 	 * ```
 	 */
 	constructor(private label: string, options?: LogOptions) {

@@ -6,7 +6,6 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: ['./src/lib/log.ts', './src/lib/colors.ts', './src/lib/utils.ts'],
-			fileName: 'index',
 			formats: ['es']
 		},
 		target: 'esnext',
@@ -14,7 +13,6 @@ export default defineConfig({
 		minify: false,
 		rollupOptions: {
 			output: {
-				compact: false,
 				preserveModules: true
 			}
 		}

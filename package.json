@@ -12,7 +12,7 @@
 		"dev:inspect": "node --inspect-brk ./node_modules/vite-node/vite-node.mjs --watch ./src/index.ts",
 		"build": "vite build",
 		"preview": "node ./dist/index.js",
-		"package": "npm run build && copyfiles ./package.json ./dist && cd ./dist && publint",
+		"package": "npm run build && copyfiles ./package.json ./dist && publint ./dist",
 		"lint": "prettier --plugin-search-dir . --check .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test": "vitest"

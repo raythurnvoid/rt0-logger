@@ -33,6 +33,7 @@ const colors: {
 } = {
 	trace: chalk.gray.bind(chalk),
 	debug: chalk.gray.bind(chalk),
+	log: chalk.white.bind(chalk),
 	info: chalk.blue.bind(chalk),
 	warn: chalk.yellow.bind(chalk),
 	error: chalk.redBright.bind(chalk),

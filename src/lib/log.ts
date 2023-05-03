@@ -1,7 +1,7 @@
 /**
  * The available log levels.
  */
-export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
+export type LogLevel = 'trace' | 'debug' | 'log' | 'info' | 'warn' | 'error';
 
 /**
  * The available log level tags that will be showed in the console.
@@ -9,7 +9,7 @@ export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
  */
 export type LogLevelTag = LogLevel | 'success' | 'fail';
 
-const logLevelsOrder: LogLevel[] = ['trace', 'debug', 'info', 'warn', 'error'];
+const logLevelsOrder: LogLevel[] = ['trace', 'debug', 'log', 'info', 'warn', 'error'];
 
 /**
  * Available Log options.
@@ -140,6 +140,19 @@ export class Log {
 	d(...args: any[]) {
 		this.logger({
 			levelTag: 'debug',
+			label: this.label,
+			callerArgs: args
+		});
+	}
+
+	/**
+	 * Logs a log message.
+	 *
+	 * @param args The arguments to log.
+	 */
+	l(...args: any[]) {
+		this.logger({
+			levelTag: 'log',
 			label: this.label,
 			callerArgs: args
 		});
